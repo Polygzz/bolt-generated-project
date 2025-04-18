@@ -98,11 +98,11 @@ function updateWorkoutRecommendations(weatherData) {
 }
 
 // Update weather by city/location name
-async function updateWeatherByLocation(location) {
-  if (!location) return;
+async function updateWeatherByLocation(zipcode) {
+  if (!zipcode) return;
   
   try {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${API_KEY}`);
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?zip=${zipcode},us&units=metric&appid=${API_KEY}`);
     if (!response.ok) {
       throw new Error('Location not found');
     }
@@ -117,21 +117,21 @@ async function updateWeatherByLocation(location) {
 // Initialize event listeners when DOM is loaded
 function initWeatherFeatures() {
   // Get initial weather data
-  getWeatherData();
+  //getWeatherData(); // Removed geolocation
   
   // Set up location button listener
   const updateLocationBtn = document.getElementById('updateLocationBtn');
   const locationInput = document.getElementById('location');
   
   updateLocationBtn?.addEventListener('click', () => {
-    const location = (locationInput as HTMLInputElement)?.value;
-    if (location) {
-      updateWeatherByLocation(location);
+    const zipcode = (locationInput as HTMLInputElement)?.value;
+    if (zipcode) {
+      updateWeatherByLocation(zipcode);
     }
   });
   
   // Refresh weather data every 30 minutes
-  setInterval(getWeatherData, 30 * 60 * 1000);
+  //setInterval(getWeatherData, 30 * 60 * 1000); // Removed geolocation
 }
 
 // Initialize weather when page loads

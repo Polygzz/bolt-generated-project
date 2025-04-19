@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.7.4"><title>Soccer Training Tracker</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.CxO_JRN6.js"></script><link rel="stylesheet" href="/_astro/calendar.B2a6EGzK.css"></head> <body class="bg-neutral font-sans min-h-screen text-textPrimary"> <div class="flex justify-end p-4"> <a href="/login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
+Login
+</a> </div>  <nav class="bg-boxColor py-4 shadow-md dark:bg-gray-800"> <div class="container mx-auto px-4 flex items-center justify-between"> <a href="/" class="text-2xl font-bold text-textPrimary">Soccer Tracker</a> <ul class="flex space-x-6"> <li> <a href="/" class="hover:text-blue-500 transition-colors duration-300 text-textPrimary">Home</a> </li> <li> <a href="/gym" class="hover:text-blue-500 transition-colors duration-300 text-textPrimary">Gym</a> </li> <li> <a href="/calendar" class="hover:text-blue-500 transition-colors duration-300 text-textPrimary">Calendar</a> </li> <li> <a href="/weather" class="hover:text-blue-500 transition-colors duration-300 text-textPrimary">Weather</a> </li> <li> <a href="/notes" class="hover:text-blue-500 transition-colors duration-300 text-textPrimary">Notes</a> </li> <li> <a href="/motivation" class="hover:text-blue-500 transition-colors duration-300 text-textPrimary">Motivation</a> </li> <li> <a href="/readiness" class="hover:text-blue-500 transition-colors duration-300 text-textPrimary">Readiness</a> </li> <li> <a href="/suggested" class="hover:text-blue-500 transition-colors duration-300 text-textPrimary">Suggested</a> </li> </ul> </div> </nav> <main class="container mx-auto px-4 py-8"> <h1 class="text-3xl font-bold mb-8">Training Readiness</h1> <div class="mb-8"> <form id="addMetric" class="bg-white p-6 rounded-lg shadow-md"> <h2 class="text-xl font-bold mb-4">Add New Metric</h2> <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="metricName">
+Metric Name
+</label> <input type="text" id="metricName" name="metricName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required> </div> <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+Add Metric
+</button> </form> </div> <form id="readinessCheck" class="bg-white p-6 rounded-lg shadow-md mb-6"> <h2 class="text-xl font-bold mb-6">Daily Readiness Check</h2> <div id="metricsContainer" class="space-y-6"> <!-- Metrics will be populated by JavaScript --> </div> <button type="submit" class="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+Check Readiness
+</button> </form> <div id="readinessResult" class="hidden bg-white p-6 rounded-lg shadow-md"> <h3 class="text-xl font-bold mb-4">Your Readiness Score</h3> <div class="text-4xl font-bold text-center mb-4"> <span id="readinessScore">0</span>/<span id="maxScore">0</span> </div> <p id="readinessMessage" class="text-center text-gray-700"></p> </div> </main>  </body></html> <script type="module">let r=JSON.parse(localStorage.getItem("readinessMetrics")||"[]");function g(){const t=document.getElementById("metricsContainer");t&&(t.innerHTML=r.map((o,e)=>`
+        <div class="relative">
+          <div class="flex justify-between items-center mb-3">
+            <label class="block text-gray-700 font-bold">${o}</label>
+            <button
+              type="button"
+              onclick="deleteMetric(${e})"
+              class="text-deleteButton hover:text-gray-700"
+            >
+              Delete
+            </button>
+          </div>
+          <div class="flex space-x-4">
+            ${[1,2,3,4,5].map(n=>`
+              <input type="radio" name="metric_${e}" value="${n}" id="metric_${e}_${n}" class="hidden peer" required>
+              <label for="metric_${e}_${n}" class="cursor-pointer px-4 py-2 rounded border peer-checked:bg-blue-500 peer-checked:text-white">
+                ${n}
+              </label>
+            `).join("")}
+          </div>
+        </div>
+      `).join(""))}const i=document.getElementById("addMetric");i?.addEventListener("submit",t=>{t.preventDefault();const e=new FormData(t.target).get("metricName")?.toString();e&&!r.includes(e)&&(r.push(e),localStorage.setItem("readinessMetrics",JSON.stringify(r)),g(),i.reset())});const f=document.getElementById("readinessCheck"),c=document.getElementById("readinessResult"),d=document.getElementById("readinessScore"),l=document.getElementById("maxScore"),m=document.getElementById("readinessMessage");f?.addEventListener("submit",t=>{t.preventDefault();const o=new FormData(t.target);let e=0;r.forEach((p,u)=>{e+=parseInt(o.get(`metric_${u}`))});const n=r.length*5,a=e/n*100;let s="";a<=40?s="Consider taking a rest day or doing light recovery work.":a<=60?s="You can train but should focus on technique rather than intensity.":a<=80?s="Good to go! You can handle a moderate to high intensity session.":s="Excellent! You're ready for peak performance training!",d&&(d.textContent=e.toString()),l&&(l.textContent=n.toString()),m&&(m.textContent=s),c&&c.classList.remove("hidden")});g();</script>

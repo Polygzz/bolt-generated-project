@@ -1,82 +1,87 @@
 ---
-    import { createClient } from '@supabase/supabase-js';
+---
 
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+<form id="addSession" class="bg-boxColor p-6 rounded-lg shadow-md mb-6">
+  <h2 class="text-xl font-bold mb-4 text-textPrimary">Add Training Session</h2>
+  
+  <div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2" for="date">
+      Date
+    </label>
+    <input
+      type="date"
+      id="date"
+      name="date"
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      required
+    />
+  </div>
 
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+  <div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2" for="duration">
+      Duration (minutes)
+    </label>
+    <input
+      type="number"
+      id="duration"
+      name="duration"
+      min="1"
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      required
+    />
+  </div>
 
-    let skills = ['Dribbling', 'Passing', 'Shooting', 'Defending', 'Agility'];
-    let notes = '';
-    let duration = 0;
-    let date = '';
-    let successMessage = '';
-    let errorMessage = '';
+  <div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2" for="skills">
+      Skills (comma-separated)
+    </label>
+    <input
+      type="text"
+      id="skills"
+      name="skills"
+      placeholder="e.g., Dribbling, Shooting, Passing"
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      required
+    />
+  </div>
 
-    async function addSession() {
-      if (!date || !duration || !skills.length) {
-        errorMessage = 'Please fill in all fields.';
-        successMessage = '';
-        return;
-      }
+  <div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2" for="notes">
+      Notes
+    </label>
+    <textarea
+      id="notes"
+      name="notes"
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      rows="3"
+    ></textarea>
+  </div>
 
-      try {
-        const { data, error } = await supabase
-          .from('training_sessions')
-          .insert([{ date, duration, skills, notes }]);
+  <button
+    type="submit"
+    class="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-300"
+  >
+    Add Session
+  </button>
+</form>
 
-        if (error) {
-          console.error('Error inserting data:', error);
-          errorMessage = 'Failed to add session. Please try again.';
-          successMessage = '';
-        } else {
-          console.log('Data inserted:', data);
-          successMessage = 'Session added successfully!';
-          errorMessage = '';
-          // Clear the form
-          date = '';
-          duration = 0;
-          skills = ['Dribbling', 'Passing', 'Shooting', 'Defending', 'Agility'];
-          notes = '';
-        }
-      } catch (error) {
-        console.error('An unexpected error occurred:', error);
-        errorMessage = 'An unexpected error occurred. Please try again later.';
-        successMessage = '';
-      }
-    }
-    ---
+<script>
+  const form = document.getElementById('addSession');
+  const sessions = JSON.parse(localStorage.getItem('trainingSessions') || '[]');
 
-    <div class="bg-boxColor p-6 rounded-lg shadow-md mb-8 transition-shadow duration-300 hover:shadow-lg dark:bg-gray-800">
-      <h2 class="text-xl font-bold mb-4 text-textPrimary">Add Training Session</h2>
-      {successMessage && <p class="text-green-500 mb-2">{successMessage}</p>}
-      {errorMessage && <p class="text-red-500 mb-2">{errorMessage}</p>}
-      <div class="mb-4">
-        <label for="date" class="block text-gray-700 text-sm font-bold mb-2 text-textPrimary">Date:</label>
-        <input type="date" id="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-          bind:value={date} />
-      </div>
-      <div class="mb-4">
-        <label for="duration" class="block text-gray-700 text-sm font-bold mb-2 text-textPrimary">Duration (minutes):</label>
-        <input type="number" id="duration" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-          bind:value={duration} />
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2 text-textPrimary">Skills Practiced:</label>
-        <div class="flex flex-wrap gap-2">
-          {skills.map(skill => (
-            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm dark:bg-blue-200 dark:text-blue-900">{skill}</span>
-          ))}
-        </div>
-      </div>
-      <div class="mb-4">
-        <label for="notes" class="block text-gray-700 text-sm font-bold mb-2 text-textPrimary">Notes:</label>
-        <textarea id="notes" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-          bind:value={notes}></textarea>
-      </div>
-      <button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-300"
-        on:click={addSession}>
-        Add Session
-      </button>
-    </div>
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    
+    const newSession = {
+      date: formData.get('date'),
+      duration: formData.get('duration'),
+      skills: formData.get('skills')?.toString().split(',').map(s => s.trim()),
+      notes: formData.get('notes')
+    };
+
+    sessions.push(newSession);
+    localStorage.setItem('trainingSessions', JSON.stringify(sessions));
+    window.location.reload();
+  });
+</script>

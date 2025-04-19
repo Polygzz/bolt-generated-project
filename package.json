@@ -12,7 +12,7 @@
   "dependencies": {
     "@astrojs/tailwind": "latest",
     "@supabase/supabase-js": "latest",
-    "astro": "latest",
+    "astro": "^5.7.4",
     "tailwindcss": "latest"
   }
 }

@@ -1,7 +1,7 @@
 // src/pages/register.astro
 ---
 import Layout from '../layouts/Layout.astro';
-import { supabase } from '../lib/supabase';
+import { supabase } from  '@supabase/supabase-js';
 
 // Redirect if already authenticated
 const { data: { user } } = await supabase.auth.getUser();

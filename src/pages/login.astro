@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { supabase } from '@supabase/supabase-js'
+import { supabase } '@supabase/supabase-js';
+.
+
 
 const { data: { user } } = await supabase.auth.getUser();
 

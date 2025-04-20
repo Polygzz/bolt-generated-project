@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-  darkMode: 'class', // Enable dark mode via class strategy
   theme: {
     extend: {
       colors: {
@@ -14,15 +13,14 @@ module.exports = {
         textPrimary: '#1e293b',   // Dark gray for primary text
         textSecondary: '#e67e22', // A lighter orange for secondary text
         deleteButton: '#000000', // Black for delete buttons
-
-        // Dark Mode Colors
-        darkPrimary: '#f97316',       // A vibrant orange for dark mode
-        darkSecondary: '#ea580c',     // A slightly darker orange for dark mode
-        darkAccent: '#38bdf8',        // A bright sky blue for dark mode
-        darkNeutral: '#111827',      // Dark background for dark mode
-        darkBoxColor: '#1f2937',     // Darker box color for dark mode
-        darkTextPrimary: '#f9fafb',  // Light text for dark mode
-        darkTextSecondary: '#e67e22', // A lighter orange for secondary text in dark mode
+        
+        // Original Color Palette (commented out)
+        // primary: '#4ade80',       // A fresh, vibrant green
+        // secondary: '#22c55e',     // A slightly darker green
+        // accent: '#38bdf8',        // A bright sky blue
+        // neutral: '#f0fdf4',       // A very light green for backgrounds
+        // textPrimary: '#064e3b',   // Dark green for primary text
+        // textSecondary: '#34d399', // A lighter green for secondary text
       },
       fontFamily: {
         'sans': ['"Poppins"', 'sans-serif'],

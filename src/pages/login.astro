@@ -1,8 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { supabase } from '@supabase/supabase-js';
-.
+import { createClient } from '@supabase/supabase-js';
 
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const { data: { user } } = await supabase.auth.getUser();
 
@@ -43,8 +46,13 @@ if (user) {
   </div>
 
   <script type="module">
-    import { supabase } from '@supabase/supabase-js';
-		
+    import { createClient } from '@supabase/supabase-js';
+
+    const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
